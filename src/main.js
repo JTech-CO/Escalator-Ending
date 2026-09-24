@@ -12,16 +12,23 @@ function press() {
   if (game.state === 'title' || game.state === 'over') { game.start(); newRecord = false; }
   else if (game.state === 'paused') game.resume();
 }
-function pause() { if (game.state === 'paused') game.resume(); else game.pause(); input.clear(); }
+function pause() { if (game.state === 'paused') { void audio.unlock(); game.resume(); } else game.pause(); input.clear(); }
 const input = bindInput($('board'), { press, tap: () => game.tap(), burst: () => { if (game.burst()) audio.effect('burst'); }, pause, blur: () => game.pause() });
 $('play').addEventListener('click', press);
 $('pause').addEventListener('click', pause);
-$('sound').addEventListener('click', () => {
-  const enabled = audio.toggle();
-  $('sound').setAttribute('aria-pressed', String(enabled));
-  $('sound').setAttribute('aria-label', enabled ? 'Mute sound' : 'Enable sound');
-  $('sound').title = enabled ? 'Mute sound' : 'Enable sound';
-  $('mute-mark').hidden = enabled;
+function syncSound() {
+  const label = audio.ready ? 'Mute sound' : audio.enabled ? 'Retry sound' : 'Enable sound';
+  $('sound').setAttribute('aria-pressed', String(audio.ready));
+  $('sound').setAttribute('aria-busy', String(Boolean(audio.pending)));
+  $('sound').setAttribute('aria-label', label);
+  $('sound').title = audio.pending ? 'Starting sound…' : label;
+}
+$('sound').addEventListener('click', async () => {
+  const result = audio.toggle();
+  syncSound();
+  const ready = await result;
+  syncSound();
+  $('announcement').textContent = ready ? 'Sound enabled.' : audio.enabled ? 'Sound could not start. Click the sound button to retry.' : 'Sound muted.';
 });
 $('reset').addEventListener('click', () => { resetBest(); best = 0; $('announcement').textContent = 'Personal best cleared.'; });
 function showPanel(label, title, copy, button, hint) {
@@ -31,6 +38,7 @@ function showPanel(label, title, copy, button, hint) {
 }
 function ui() {
   const state = game.state;
+  syncSound();
   $('board').dataset.state = state;
   if (state !== previous) {
     if (state === 'dying') { newRecord = game.score > best; if (newRecord) { best = game.score; writeBest(best); } audio.effect('death'); }
@@ -53,7 +61,7 @@ function ui() {
   $('pause').title = state === 'paused' ? 'Resume (P)' : 'Pause (P)';
   const fatigueHint = game.elapsed >= 12 && game.elapsed < 18;
   $('run-hint').hidden = state !== 'playing' || (game.elapsed > 4 && !fatigueHint);
-  $('run-hint').textContent = fatigueHint ? 'Getting tired. Tap faster to keep up.' : input.held ? 'Keep holding. Tap faster when you tire.' : 'Hold the screen or Space to run.';
+  $('run-hint').textContent = fatigueHint ? 'Getting tired. Click or tap faster.' : input.held ? 'Hold or click. Faster taps fight fatigue.' : 'Hold or click to run. Space works too.';
   $('stamina').hidden = state !== 'playing';
   [...$('stamina').children].forEach((dot, i) => dot.style.opacity = game.stamina >= (i + 1) * 33 ? 1 : .2);
   $('reset').hidden = state !== 'title' && state !== 'over';

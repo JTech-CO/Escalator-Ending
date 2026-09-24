@@ -16,3 +16,10 @@
   .result-score{font-size:36px}
   .board-footer{font-size:9px}
 }
+.tools button{display:grid;place-items:center;padding:0;line-height:1;flex-shrink:0;overflow:hidden}
+#sound svg{display:block;width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}
+#sound .sound-waves{display:none}
+#sound[aria-pressed="true"] .sound-waves{display:block}
+#sound[aria-pressed="true"] .sound-off{display:none}
+#sound[aria-pressed="true"]{color:#f2d444;border-color:#f2d44480}
+#sound[aria-busy="true"]{opacity:.65}

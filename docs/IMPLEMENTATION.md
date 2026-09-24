@@ -25,9 +25,13 @@ The previous staged belt speeds and random spikes have been removed. No survival
 
 Holding alone still eventually loses ground. This is the result of fatigue and position, not a randomly selected death time. Actual players will have a practical tapping limit; the simulation imposes no maximum session length.
 
+## Burst trigger
+
+Three fresh pointer/Space presses within a single 160ms window attempt a burst. Inputs share one counter, including mixed mouse and keyboard presses. Holding Space does not generate additional presses through OS auto-repeat. A burst requires active play, at least 35 stamina, and no cooldown; it lasts 0.35 seconds and starts a 1.4-second cooldown. The message is 'One last push!'. Its 130px/s effort floor is reduced by fatigue and does not override stronger tapping effort.
+
 ## Verification
 
-15 automated tests cover core physics, burst cost/cooldown, ingestion grace, escape bonuses, pause/restart, invalid storage, fatigue compensation, input events, and loop continuity.
+22 automated tests cover core physics, burst cost/cooldown, ingestion grace, escape bonuses, pause/restart, invalid storage, fatigue compensation, input events, and loop continuity.
 
 Specific regressions:
 
@@ -44,3 +48,7 @@ Browser review confirmed English title/pause/result screens at mobile sizes, no 
 ## Scope
 
 Local personal best, result commentary, 1.5-second non-gory death animation, instant retry, pause, synthesized audio, and responsive layout are included. Accounts, online leaderboards, NPCs, skins, and share cards are not included.
+
+## Sound controls
+
+The speaker icon uses a fixed SVG instead of wrapping text. Enabling sound waits for the audio context and plays a short confirmation tone. Interrupted or suspended contexts resume on a new input gesture; closed contexts are recreated. Failed resumes show Retry sound instead of an active icon. A shared master gain mutes both the drone and effects, including a mute issued while resume is pending. Six audio regression tests cover these cases. Browser checks validate the button and context state; physical speaker output and real-device interruptions still require device testing.
