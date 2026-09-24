@@ -15,8 +15,4 @@ Run tests with `npm test`. No dependency installation is needed.
 
 ## GitHub Pages
 
-Ready for static hosting: `index.html`, `styles.css`, and `src/`. No build step or backend is required; `server.js` is only for local development.
-
-In **Settings → Pages**, choose **Deploy from a branch**, select your branch and **/(root)**, then save. Relative asset paths support repository subpaths. `.nojekyll` bypasses Jekyll processing. See [GitHub's setup guide](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site).
-
-[Implementation notes](docs/IMPLEMENTATION.md)
+### [Play Here](<https://jtech-co.github.io/Escalator-Ending/>)
