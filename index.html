@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#141719">
+  <meta name="description" content="Hold to run. Tap faster as your legs tire. A tiny survival game at the end of an escalator.">
+  <title>Escalator Ending</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23e6c200'/%3E%3Cpath d='M12 46h14V32h14V18h12' stroke='%23141719' stroke-width='7' fill='none'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="masthead"><a class="wordmark" href="./"><span class="brand-icon">↗</span> ESCALATOR ENDING</a><span class="edition">A VERY SMALL SURVIVAL GAME <span> / 001</span></span></header>
+  <main class="layout">
+    <aside class="intro">
+      <p class="eyebrow"><span class="live-dot"></span> HOLD ON. KEEP RUNNING.</p>
+      <h1>STOP.<br>IT’S<br><span>OVER.</span></h1>
+      <p class="intro-copy">Six legs. One moving staircase.<br>Survival is a full-time job.</p>
+      <div class="instructions"><div><kbd>SPACE</kbd><span>Hold Space to run</span></div><div><span class="touch-icon">↥</span><span>Or press and hold the screen</span></div></div>
+      <p class="fine-print">Your legs tire. Tap faster to keep up.<br>Three rapid taps give you a short burst.</p>
+      <div class="specimen"><span>THE CONTENDER</span><span>Willpower: plenty.<br>Grip: questionable.</span></div>
+    </aside>
+    <section class="game-shell" aria-label="Escalator Ending game">
+      <div class="board" id="board" tabindex="0" aria-label="Game area. Hold Space or the screen to run. Tap faster to overcome fatigue. Press P to pause.">
+        <canvas id="game" width="390" height="844" aria-label="A small roach running on a moving escalator"></canvas>
+        <div class="hud"><div><span class="hud-label">SURVIVAL</span><strong id="score">0.0<span>s</span></strong></div><div class="best"><span class="hud-label">BEST</span><strong id="best">0.0<span>s</span></strong></div></div>
+        <div class="tools"><button id="pause" aria-label="Pause game" title="Pause (P)">Ⅱ</button><button id="sound" aria-label="Enable sound" aria-pressed="false" title="Enable sound">♪<span id="mute-mark"> /</span></button></div>
+        <div class="overlay" id="overlay">
+          <p class="eyebrow" id="panel-label">KEEP RUNNING</p>
+          <h2 id="panel-title">Escalator<br>Ending</h2>
+          <p id="panel-copy">A little life. A lot of legwork.</p>
+          <div class="result-score" id="result-score" hidden></div>
+          <button class="primary" id="play">Hold to run <span>↗</span></button>
+          <p class="panel-hint" id="panel-hint">Hold the screen or Space. Tap faster as you tire.</p>
+        </div>
+        <div class="run-hint" id="run-hint" hidden>Hold the screen or Space. Tap faster as you tire.</div>
+        <div class="burst-dots" id="stamina" hidden aria-label="Burst reserves"><i></i><i></i><i></i></div>
+        <div class="board-footer"><span>WATCH YOUR STEP</span><span>↓</span><span>KEEP MOVING</span></div>
+      </div>
+    </section>
+    <aside class="side-note"><span class="vertical-text">THE MACHINE DOES NOT CARE.</span><span class="index-mark">01 — ∞</span></aside>
+  </main>
+  <footer class="site-footer"><span>© ESCALATOR ENDING <span class="footer-muted">· STILL ALIVE. FOR NOW.</span></span><button id="reset">Reset best ↺</button><span class="footer-muted">SIX LEGS. ONE CHANCE.</span></footer>
+  <div class="sr-only" id="announcement" role="status" aria-live="polite"></div>
+  <script type="module" src="src/main.js"></script>
+</body>
+</html>

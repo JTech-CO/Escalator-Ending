@@ -1,0 +1,7 @@
+export class GameAudio {
+  constructor(){this.enabled=false;this.ctx=null;this.lastStep=0;}
+  unlock(){if(!this.enabled)return;try{if(!this.ctx){this.ctx=new AudioContext();this.drone=this.ctx.createOscillator();this.drone.type='triangle';this.drone.frequency.value=52;this.gain=this.ctx.createGain();this.gain.gain.value=0;this.drone.connect(this.gain).connect(this.ctx.destination);this.drone.start();}if(this.ctx.state==='suspended')this.ctx.resume().catch(()=>{});}catch{this.enabled=false;}}
+  toggle(){this.enabled=!this.enabled;this.unlock();if(!this.enabled&&this.gain)this.gain.gain.setTargetAtTime(0,this.ctx.currentTime,.025);return this.enabled;}
+  effect(kind){if(!this.enabled||!this.ctx)return;const c=this.ctx,t=c.currentTime,o=c.createOscillator(),g=c.createGain();o.type=kind==='burst'?'sawtooth':'sine';o.frequency.setValueAtTime(kind==='burst'?180:kind==='death'?70:120,t);o.frequency.exponentialRampToValueAtTime(35,t+.13);g.gain.setValueAtTime(.025,t);g.gain.exponentialRampToValueAtTime(.001,t+.16);o.connect(g).connect(c.destination);o.start(t);o.stop(t+.18);}
+  update(game){if(!this.ctx)return;const active=this.enabled&&(game.state==='playing'||game.state==='dying');this.gain.gain.setTargetAtTime(active?(game.state==='dying'?.07:.018+Math.max(0,1-game.d/100)*.018):0,this.ctx.currentTime,.08);this.drone.frequency.setTargetAtTime(42+game.speed*.18,this.ctx.currentTime,.1);if(active&&game.running&&game.elapsed-this.lastStep>.14){this.lastStep=game.elapsed;this.effect('step');}if(game.elapsed<this.lastStep)this.lastStep=0;}
+}
